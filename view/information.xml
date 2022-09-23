@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="information_form_view" model="ir.ui.view">
+        <field name="name">information</field>
+        <field name="model">workers</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <tree>
+                        <group>
+<!--                            <field name="picture" widget="mage" class="oe_avatar"/>-->
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="city" widget="selection"/>
+                            <field name="gender" widget="selection"/>
+                            <field name="citizenship" widget="selection"/>
+                            <field name="card_num"/>
+                            <field name="id_numb"/>
+                            <field name="birth_date"/>
+                            <field name="expiration_date"/>
+                            <field name="depatments"/>
+                        </group>
+                    </tree>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="information_kanban_view" model="ir.ui.view">
+        <field name="name">information</field>
+        <field name="model">workers</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="first_name"/>
+                <field name="last_name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_tags_section">
+                                    <ul>
+                                        <li>სახელი: <field name="first_name"/></li>
+                                        <li>გვარი: <field name="last_name"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="workers_tree_view" model="ir.ui.view">
+        <field name="name">workers tree</field>
+        <field name="model">workers</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="first_name"/>
+                <field name="last_name"/>
+                <field name="depatments"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="departamentis_view_xe" model="ir.ui.view">
+        <field name="name">Departametni</field>
+        <field name="model">department</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <tree>
+                        <group>
+                            <field name="employe"/>
+                            <field name="parent_department"/>
+                        </group>
+                    </tree>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+        <record id="departamentiS_kanbanis_xe" model="ir.ui.view">
+        <field name="name">Departamentis</field>
+        <field name="model">department</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="employe"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_tags_section">
+                                    <ul>
+                                        <li>სახელი: <field name="employe"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="departments_tree_view" model="ir.ui.view">
+        <field name="name">departments tree</field>
+        <field name="model">department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="compute_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="department_accoutn_view" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="res_model">department</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+    <record id="information_account_view" model="ir.actions.act_window">
+        <field name="name">Information</field>
+        <field name="res_model">workers</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+
+    <menuitem
+            name="Database"
+            id="database_menu_id"/>
+    <menuitem
+        name="Department"
+        parent="database_menu_id"
+        action="department_accoutn_view"
+        id="department_menu_id"/>
+    <menuitem
+            name="Workers"
+            parent="database_menu_id"
+            action="information_account_view"
+            id="workers_menu_id"/>
+
+</odoo>
