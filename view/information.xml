@@ -9,7 +9,6 @@
                 <sheet>
                     <tree>
                         <group>
-<!--                            <field name="picture" widget="mage" class="oe_avatar"/>-->
                             <field name="first_name"/>
                             <field name="last_name"/>
                             <field name="city" widget="selection"/>
@@ -20,6 +19,7 @@
                             <field name="birth_date"/>
                             <field name="expiration_date"/>
                             <field name="depatments"/>
+                            <field name="personality"/>
                         </group>
                     </tree>
                 </sheet>
@@ -81,7 +81,7 @@
         </field>
     </record>
 
-        <record id="departamentiS_kanbanis_xe" model="ir.ui.view">
+    <record id="departamentiS_kanbanis_xe" model="ir.ui.view">
         <field name="name">Departamentis</field>
         <field name="model">department</field>
         <field name="arch" type="xml">
@@ -114,12 +114,38 @@
         </field>
     </record>
 
-    <record id="department_accoutn_view" model="ir.actions.act_window">
-        <field name="name">Department</field>
-        <field name="res_model">department</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,kanban,form</field>
+    <record id="personality_kanbanis_xe" model="ir.ui.view">
+        <field name="name">personality kanban</field>
+        <field name="model">persnality</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="personality_of_employ"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <div class="oe_kanban_tags_section">
+                                    <ul>
+                                        <li>სახელი: <field name="personality_of_employ"/></li>                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
     </record>
+
+    <record id="personality_tree_view" model="ir.ui.view">
+        <field name="name">personality tree</field>
+        <field name="model">persnality</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="personality_of_employ"/>
+            </tree>
+        </field>
+    </record>
+
     <record id="information_account_view" model="ir.actions.act_window">
         <field name="name">Information</field>
         <field name="res_model">workers</field>
@@ -127,6 +153,19 @@
         <field name="view_mode">tree,kanban,form</field>
     </record>
 
+    <record id="department_accoutn_view" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="res_model">department</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+        <record id="personality_account_view" model="ir.actions.act_window">
+        <field name="name">personality</field>
+        <field name="res_model">persnality</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
 
     <menuitem
             name="Database"
@@ -141,5 +180,9 @@
             parent="database_menu_id"
             action="information_account_view"
             id="workers_menu_id"/>
-
+    <menuitem
+            name="Personality"
+            parent="database_menu_id"
+            action="personality_account_view"
+            id="personality_menu_id"/>
 </odoo>

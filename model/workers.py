@@ -1,7 +1,8 @@
 from odoo import models, api, fields, _
 from odoo.exceptions import ValidationError
 from datetime import date
-from . import departament
+from . import departament , personality
+
 
 
 class Information(models.Model):
@@ -58,7 +59,7 @@ class Information(models.Model):
     )
 
     depatments=fields.Many2one('department','დეპარტამენტი',required=True,)
-
+    personality=fields.Many2many('persnality',string='პიროვნული თვისებები', required=True)
     #department adding
 
     #constrains
@@ -67,16 +68,12 @@ class Information(models.Model):
     def _check_value(self):
         if len(self.id_numb) != 11:
             raise ValidationError(_('Enter Value 11'))
-
-    # @api.constrains('expiration_date','birth_date')
-    # def _check_expiration_date(self):
-    #     birthday= birth_date
-    #     for rec in self:
-    #         if birthday <= rec.expiration_date:
-    #             raise ValidationError(_("ვადის გასვლის თარიღი არასწორია !"))
+        elif not self.id_numb.isdigit():
+            raise ValidationError(_('enter only numbers'))
 
     @api.constrains('birth_date')
     def _check_birth_date(self):
         for rec in self:
             if rec.birth_date > fields.Date.today():
                 raise ValidationError(_("დაბადების თარიღი აღემატება მომავალში ვერ დაიბადები!"))
+

@@ -7,7 +7,7 @@ class Deprtment(models.Model):
     _rec_name = 'compute_name'
 
     employe=fields.Char(string='იერარქია')
-    parent_department = fields.Many2one('department', String='დეეპარტმანეტი')
+    parent_department = fields.Many2one('department', string='დეეპარტმანეტი')
     compute_name = fields.Char(string='სახელი', compute='_compute_name')
 
     @api.depends('employe', 'parent_department')

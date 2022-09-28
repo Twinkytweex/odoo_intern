@@ -1,1 +1,1 @@
-from . import workers, departament
+from . import workers, departament, personality, endpoint_workers

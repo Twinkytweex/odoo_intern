@@ -10,7 +10,11 @@
     'author': 'sandro khvedelidze',
     'website':'sandroxvedo.com',
     'depends': ['base'],
-    'data': ['view/information.xml'],
+    'data': [
+        'view/information.xml',
+        'report/record.xml',
+        'report/good_worker.xml',
+    ],
     # 'demo': ['demo.xml'],
     'installable': True,
     'application': False,
