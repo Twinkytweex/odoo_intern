@@ -3,12 +3,25 @@ from odoo.exceptions import ValidationError
 from datetime import date
 from . import departament , personality
 
-
+def _get_default_color(self):
+    return randint(1,11)
 
 class Information(models.Model):
     _name = 'workers'
-    _rec_name = 'first_name'
+    _rec_name = 'position'
+    _inherit = ['mail.thread']
     #personal info
+    picture = fields.Binary(
+        comodel_name='ir.attachment',
+        attachment=True,
+        string="სურათი",
+        store=True,
+    )
+    position = fields.Char(
+        string= "პოზიცია",
+        required=True,
+        size=20,
+    )
     first_name = fields.Char(
         string="სახელი",
         required=True,
@@ -57,10 +70,25 @@ class Information(models.Model):
         string='გაუქმების თარიღი',
         required=True
     )
+    color_choice = fields.Integer(
+        string='ფერი_ციფრებისთვის'
+    )
+    comment_section = fields.Text(
+        string="კომენტარები",
+        size=250,
+    )
+    mobile_phone = fields.Char(
+        string="ტელეფონის ნომერი",
+        required=True,
+        size=9,
+    )
+    em_ail = fields.Char(
+        string="შეიყვანეთ თქვენი ფოსტა",
+        required=True,
+    )
 
     depatments=fields.Many2one('department','დეპარტამენტი',required=True,)
-    personality=fields.Many2many('persnality',string='პიროვნული თვისებები', required=True)
-    #department adding
+    personality=fields.Many2many('persnality',string='პიროვნული თვისებები',required=True)
 
     #constrains
 
@@ -76,4 +104,3 @@ class Information(models.Model):
         for rec in self:
             if rec.birth_date > fields.Date.today():
                 raise ValidationError(_("დაბადების თარიღი აღემატება მომავალში ვერ დაიბადები!"))
-

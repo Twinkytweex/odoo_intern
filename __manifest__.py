@@ -9,7 +9,7 @@
     'category' : 'Test',
     'author': 'sandro khvedelidze',
     'website':'sandroxvedo.com',
-    'depends': ['base'],
+    'depends': ['base','mail'],
     'data': [
         'view/information.xml',
         'report/record.xml',
