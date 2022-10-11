@@ -6,47 +6,85 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <field name="picture" widget="image" class="oe_avatar"/>
-                    <div class="oe_title">
-                        <label for="position" class="oe_edit_only"/>
-                        <h1>
-                            <field name="position" placeholder="შეიყვანეთ პოზიცია" required="True"/>
-                        </h1>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" groups="hr.group_hr_user"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
                     </div>
-                    <strong>
-                        <h6>
-                            <field name="depatments" widget="selection" options="{'no_create_edit': True}"/>
-                        </h6>
-                    </strong>
-                    <notebook>
-                        <page name="worker_page_1" string="პირადი მონაცემები">
-                            <group string="პირადი ინფორმაცია">
-                                <group string=" ">
-                                    <field name="first_name"/>
-                                    <field name="last_name"/>
-                                    <field name="city" widget="selection"/>
-                                    <field name="gender" widget="selection"/>
-                                    <field name="citizenship" widget="selection"/>
+                    <div id="o_employee_container"><div id="o_employee_main">
+                        <field name="image" widget='image' class="oe_avatar" options='{"preview_image":"image_medium"}'/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="პერსონალის სახელი" required="True" string="სახელი"/>
+                            </h1>
+                        </div>
+                        <field name="personality" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="პირადი უნარჩვევები" groups="hr.group_hr_user"/>
+                        <notebook>
+                            <page name="public" string="ინფორმაცია და დეპარტამენტი">
+                                <group>
+                                    <group string="საკონტაქტო ინფორმაცია">
+                                        <field name="address_id"
+                                               context="{'show_address': 1}"
+                                               options='{"always_reload": True, "highlight_first_line": True}'/>
+                                        <field name="work_location" string="სამუშაო ადგილი"/>
+                                        <field name="work_email" widget="email" string="სამუშაო ფოსტა"/>
+                                        <field name="mobile_phone" string="მობილური ნომერი"/>
+                                        <field name="work_phone" string="სახლის ნომერი"/>
+                                    </group>
+                                    <group string="პოზიცია">
+                                        <field name="depatments" string="დეპარტამენტი ადგილი"/>
+                                        <field name="job_id" string="ჯობ იდი"/>
+                                        <field name="parent_id" string="კავშირი ასევე"/>
+                                        <field name="coach_id" string="კავშირი"/>
+                                        <field name="resource_calendar_id" string="სამუშაო საათები"/>
+                                    </group>
                                 </group>
-                                <group string=" ">
-                                    <field name="card_num"/>
-                                    <field name="id_numb"/>
-                                    <field name="birth_date"/>
-                                    <field name="expiration_date"/>
-                                    <field name="personality" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="აირჩიეთ მახასიათებლები"/>
+                                <field name="notes" placeholder="მოგვიყევით თქვენს შესახებ..." colspan="4"/>
+                            </page>
+                            <page name="personal_information" string="პირადი ინფორმაცია" groups="hr.group_hr_user">
+                                <group>
+                                    <group string="მოქალაქეობა და სხვ.">
+                                        <field name="country_id" options='{"no_open": True, "no_create": True}' string="ქვეყანა"/>
+                                        <field name="identification_id" groups="hr.group_hr_user" string="პირადი ნომერი"/>
+                                        <field name="passport_id" groups="hr.group_hr_user" string="პასპორტის ნომერი"/>
+                                        <field name="bank_account_id" context="{'default_partner_id': address_home_id}" string="საბანკო ანგარიში"/>
+                                    </group>
+                                    <group string="სახლის მისამართი">
+                                        <field name="address_home_id"
+                                               context="{'show_address': 1}"
+                                               options='{"always_reload": True, "highlight_first_line": True}' string="სახლის მისამართი"/>
+                                        <field name="is_address_home_a_company" invisible="1"/>
+                                        <div class="text-warning" groups="hr.group_hr_user"
+                                             attrs="{'invisible': [('is_address_home_a_company','=', False)]}">
+                                        </div>
+                                    </group>
+                                    <group string="სქესი და ოჯახური მდგომარეობა">
+                                        <field name="gender" string="სქესი"/>
+                                        <field name="marital" string="ოჯახური მდგომარეობა"/>
+                                    </group>
+                                    <group string="დაბადების თარიღI">
+                                        <field name="birthday" string="დაბადების თარიღი"/>
+                                    </group>
+                                    <group string="სამუშაო ვიზა" name="work_permit">
+                                        <field name="visa_no" string="სამუშაო ვიზა"/>
+                                        <field name="permit_no" string="სამუშაო ვიზის ნომერი"/>
+                                        <field name="visa_expire" string="სამუშაო ვიზის ვადა"/>
+                                    </group>
                                 </group>
-                            </group>
-                            <field name="comment_section" placeholder="დაგვიტოვეთ თქვენი კომენტარი ..." colspan="4"/>
-                        </page>
-                        <page name="contact_info_worker" string="საკონტაქტო ინფორმაცია">
-                            <group string="ტელეფონი და ფოსტა">
-                                <group string=" ">
-                                    <field name="em_ail"/>
-                                    <field name="mobile_phone"/>
+                            </page>
+                            <page name="hr_settings" string="კავშირი" groups="hr.group_hr_user">
+                                <group>
+                                    <group string='კავშირი' name="active_group">
+                                        <field name="company_id" groups="base.group_multi_company"/>
+                                        <field name="user_id" string="Related User"/>
+                                    </group>
                                 </group>
-                            </group>
-                        </page>
-                    </notebook>
+                            </page>
+                        </notebook>
+                    </div></div>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -60,18 +98,48 @@
         <field name="name">information</field>
         <field name="model">workers</field>
         <field name="arch" type="xml">
-            <kanban>
-                <field name="first_name"/>
-                <field name="last_name"/>
+            <kanban class="o_hr_employee_kanban">
+                <field name="id"/>
+                <field name="message_is_follower"/>
+                <field name="message_follower_ids"/>
+                <field name="message_ids"/>
+                <field name="message_needaction_counter"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('hr.employee', 'image_medium', record.id.raw_value)"/>
+                                <div class="o_employee_summary_icons">
+                                    <t t-if="record.message_needaction_counter.raw_value">
+                                        <span class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments'/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                    </t>
+                                    <span title='Messages'><i class='fa fa-comments'/><t t-esc="record.message_ids.raw_value.length"/></span>
+                                    <span title='Followers'><i class='fa fa-users'/><t t-esc="record.message_follower_ids.raw_value.length"/></span>
+                                </div>
+                            </div>
                             <div class="oe_kanban_details">
-                                <div class="oe_kanban_tags_section">
-                                    <ul>
-                                        <li>სახელი: <field name="first_name"/></li>
-                                        <li>გვარი: <field name="last_name"/></li>
-                                    </ul>
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <span t-if="record.job_id.raw_value" class="o_kanban_record_subtitle"><field name="job_id"/></span>
+                                    </div>
+                                </div>
+                                <field name="category_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <ul>
+                                    <li id="last_login"/>
+                                    <li t-if="record.work_location.raw_value"><field name="work_location"/></li>
+                                    <li t-if="record.work_email.raw_value"><i class="fa fa-envelope"></i> <field name="work_email"/></li>
+                                    <li t-if="record.work_phone.raw_value"><i class="fa fa-phone"></i> <field name="work_phone"/></li>
+                                    <li t-if="record.mobile_phone.raw_value"><i class="fa fa-mobile"></i> <field name="mobile_phone"/></li>
+                                </ul>
+                                <div class="o_kanban_button">
+                                    <button t-if="record.message_is_follower.raw_value" name="action_unfollow" type="object" class="o_follow_btn o_following btn btn-sm btn-default">
+                                        <span class="o_unfollow">Unfollow</span>
+                                        <span class="o_following">Following</span>
+                                    </button>
+                                    <button t-if="!record.message_is_follower.raw_value" name="action_follow" type="object" class="o_follow_btn o_follow btn btn-sm btn-primary">Follow</button>
                                 </div>
                             </div>
                         </div>
@@ -86,9 +154,7 @@
         <field name="model">workers</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="first_name"/>
-                <field name="last_name"/>
-                <field name="depatments"/>
+                <field name="name"/>
             </tree>
         </field>
     </record>
