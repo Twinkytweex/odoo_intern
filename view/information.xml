@@ -3,95 +3,16 @@
     <record id="information_form_view" model="ir.ui.view">
         <field name="name">information</field>
         <field name="model">workers</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="mode">primary</field>
+        <field name="priority" eval="15"/>
         <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="toggle_active" type="object" groups="hr.group_hr_user"
-                                class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button"
-                                   options='{"terminology": "archive"}'/>
-                        </button>
-                    </div>
-                    <div id="o_employee_container"><div id="o_employee_main">
-                        <field name="image" widget='image' class="oe_avatar" options='{"preview_image":"image_medium"}'/>
-                        <div class="oe_title">
-                            <label for="name" class="oe_edit_only"/>
-                            <h1>
-                                <field name="name" placeholder="პერსონალის სახელი" required="True" string="სახელი"/>
-                            </h1>
-                        </div>
-                        <field name="personality" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="პირადი უნარჩვევები" groups="hr.group_hr_user"/>
-                        <notebook>
-                            <page name="public" string="ინფორმაცია და დეპარტამენტი">
-                                <group>
-                                    <group string="საკონტაქტო ინფორმაცია">
-                                        <field name="address_id"
-                                               context="{'show_address': 1}"
-                                               options='{"always_reload": True, "highlight_first_line": True}'/>
-                                        <field name="work_location" string="სამუშაო ადგილი"/>
-                                        <field name="work_email" widget="email" string="სამუშაო ფოსტა"/>
-                                        <field name="mobile_phone" string="მობილური ნომერი"/>
-                                        <field name="work_phone" string="სახლის ნომერი"/>
-                                    </group>
-                                    <group string="პოზიცია">
-                                        <field name="depatments" string="დეპარტამენტი ადგილი"/>
-                                        <field name="job_id" string="ჯობ იდი"/>
-                                        <field name="parent_id" string="კავშირი ასევე"/>
-                                        <field name="coach_id" string="კავშირი"/>
-                                        <field name="resource_calendar_id" string="სამუშაო საათები"/>
-                                    </group>
-                                </group>
-                                <field name="notes" placeholder="მოგვიყევით თქვენს შესახებ..." colspan="4"/>
-                            </page>
-                            <page name="personal_information" string="პირადი ინფორმაცია" groups="hr.group_hr_user">
-                                <group>
-                                    <group string="მოქალაქეობა და სხვ.">
-                                        <field name="country_id" options='{"no_open": True, "no_create": True}' string="ქვეყანა"/>
-                                        <field name="identification_id" groups="hr.group_hr_user" string="პირადი ნომერი"/>
-                                        <field name="passport_id" groups="hr.group_hr_user" string="პასპორტის ნომერი"/>
-                                        <field name="bank_account_id" context="{'default_partner_id': address_home_id}" string="საბანკო ანგარიში"/>
-                                    </group>
-                                    <group string="სახლის მისამართი">
-                                        <field name="address_home_id"
-                                               context="{'show_address': 1}"
-                                               options='{"always_reload": True, "highlight_first_line": True}' string="სახლის მისამართი"/>
-                                        <field name="is_address_home_a_company" invisible="1"/>
-                                        <div class="text-warning" groups="hr.group_hr_user"
-                                             attrs="{'invisible': [('is_address_home_a_company','=', False)]}">
-                                        </div>
-                                    </group>
-                                    <group string="სქესი და ოჯახური მდგომარეობა">
-                                        <field name="gender" string="სქესი"/>
-                                        <field name="marital" string="ოჯახური მდგომარეობა"/>
-                                    </group>
-                                    <group string="დაბადების თარიღI">
-                                        <field name="birthday" string="დაბადების თარიღი"/>
-                                    </group>
-                                    <group string="სამუშაო ვიზა" name="work_permit">
-                                        <field name="visa_no" string="სამუშაო ვიზა"/>
-                                        <field name="permit_no" string="სამუშაო ვიზის ნომერი"/>
-                                        <field name="visa_expire" string="სამუშაო ვიზის ვადა"/>
-                                    </group>
-                                </group>
-                            </page>
-                            <page name="hr_settings" string="კავშირი" groups="hr.group_hr_user">
-                                <group>
-                                    <group string='კავშირი' name="active_group">
-                                        <field name="company_id" groups="base.group_multi_company"/>
-                                        <field name="user_id" string="Related User"/>
-                                    </group>
-                                </group>
-                            </page>
-                        </notebook>
-                    </div></div>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-            </form>
+            <xpath expr="//field[@name='job_id']" position="before">
+                <field name="depatments"/>
+            </xpath>
+            <xpath expr="//field[@name='department_id']" position="replace"/>
         </field>
+
     </record>
 
     <record id="information_kanban_view" model="ir.ui.view">
