@@ -10,5 +10,5 @@ class Information(models.Model):
     _name = 'workers'
     _inherit = ['hr.employee','mail.thread']
     #personal info
-    depatments = fields.Many2one('department', 'დეპარტამენტი', required=True, )
+    depatments = fields.Many2one('department', string='Department', required=True, )
     personality = fields.Many2many('persnality', string='პიროვნული თვისებები', required=True)
